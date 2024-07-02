@@ -1,2 +1,11 @@
-# particle-next-starter
- Next.js starter using Particle Network's Auth Core SDK
+# Particle Network Next.js starter
+
+This is a demo using Particle Network's Auth Core SDK and Next.js. 
+
+This Next project uses:
+
+- TypeScript
+- `src/` directory
+- App router
+- Tailwind CSS
+- Particle Auth Core
