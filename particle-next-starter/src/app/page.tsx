@@ -36,9 +36,7 @@ const Home: NextPage = () => {
 
   const handleLogin = async () => {
     if (!userInfo) {
-      await connect({
-        chain: BaseSepolia,
-      });
+      await connect({});
     }
   };
 
@@ -73,12 +71,22 @@ const Home: NextPage = () => {
             </button>
           </div>
         ) : (
-          <div className="profile-card">
-            <h2>{userInfo.name}</h2>
-            <h3>{BaseSepolia.fullname}</h3>
-            <h3>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <h2 className="text-2xl font-semibold mb-2 text-white">
+              {userInfo.name}
+            </h2>
+            <h3 className="text-xl mb-2 text-gray-400">
+              {BaseSepolia.fullname}
+            </h3>
+            <h3 className="text-xl font-semibold text-purple-400">
               {balance} {BaseSepolia.nativeCurrency.symbol}
             </h3>
+            <button
+              className="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+              onClick={handleDisconnect}
+            >
+              Disconnect
+            </button>
           </div>
         )}
 
