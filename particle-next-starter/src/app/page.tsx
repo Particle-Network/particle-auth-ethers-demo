@@ -106,6 +106,7 @@ const Home: NextPage = () => {
         <h2 className="text-2xl font-bold mt-4 mb-6 text-center">
           <a
             href="https://github.com/soos3d/particle-next-starter"
+            target="blank"
             className="text-white hover:text-purple-300 transition duration-300 flex items-center"
           >
             <img
