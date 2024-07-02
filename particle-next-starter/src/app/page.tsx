@@ -72,6 +72,9 @@ const Home: NextPage = () => {
           </div>
         ) : (
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <h2 className="text-lg font-semibold mb-2 text-white">
+              {connectionStatus}
+            </h2>
             <h2 className="text-2xl font-semibold mb-2 text-white">
               {userInfo.name}
             </h2>
@@ -99,6 +102,20 @@ const Home: NextPage = () => {
             Particle Network!
           </a>
         </h1>
+
+        <h2 className="text-2xl font-bold mt-4 mb-6 text-center">
+          <a
+            href="https://github.com/soos3d/particle-next-starter"
+            className="text-white hover:text-purple-300 transition duration-300 flex items-center"
+          >
+            <img
+              src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"
+              alt="GitHub Logo"
+              className="w-6 h-6 mr-2"
+            />
+            Check the repository
+          </a>
+        </h2>
 
         <p className="text-xl mb-12 text-center">
           Get started by editing{" "}
