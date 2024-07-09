@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+"use client";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -7,14 +7,7 @@ import { AuthType } from "@particle-network/auth-core";
 import { BaseSepolia, EthereumSepolia } from "@particle-network/chains";
 import { AuthCoreContextProvider } from "@particle-network/auth-core-modal";
 
-console.log(AuthType);
-
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Particle Next Starter",
-  description: "Demo using Particle Network's Auth Core SDK and Next.js",
-};
 
 export default function RootLayout({
   children,
@@ -26,17 +19,23 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthCoreContextProvider
           options={{
-            projectId: process.env.REACT_APP_PROJECT_ID || "",
-            clientKey: process.env.REACT_APP_CLIENT_KEY || "",
-            appId: process.env.REACT_APP_APP_ID || "",
-            //authTypes: [AuthType.google, AuthType.twitter, AuthType.github],
+            projectId: process.env.NEXT_PUBLIC_PROJECT_ID || "",
+            clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY || "",
+            appId: process.env.NEXT_PUBLIC_APP_ID || "",
+            authTypes: [
+              AuthType.email,
+              AuthType.google,
+              AuthType.twitter,
+              AuthType.github,
+              AuthType.discord,
+            ],
             themeType: "dark",
             wallet: {
               // Set to false to remove the embedded wallet modal
               visible: true,
               customStyle: {
                 // Locks the chain selector to Base Sepolia
-                supportChains: [BaseSepolia],
+                supportChains: [BaseSepolia, EthereumSepolia],
               },
             },
           }}
