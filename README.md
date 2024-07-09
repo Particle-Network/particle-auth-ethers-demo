@@ -45,7 +45,7 @@ Particle Auth Core, a component of Particle Network's Wallet-as-a-Service, enabl
 
 ### Clone this repository
 ```
-git clone https://github.com/soos3d/particle-next-starter
+git clone https://github.com/soos3d/particle-auth-nextjs-ethers.git
 ```
 
 ### Move into the app directory
