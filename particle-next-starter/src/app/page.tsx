@@ -19,7 +19,22 @@ const Home: NextPage = () => {
   const [balance, setBalance] = useState<string>("");
   const [recipientAddress, setRecipientAddress] = useState<string>("");
 
-  const ethersProvider = new ethers.BrowserProvider(provider, "any");
+  // Create a wrapper for the provider to ensure it matches Eip1193Provider type
+  const customProvider = {
+    ...provider,
+    request: async ({
+      method,
+      params,
+    }: {
+      method: string;
+      params?: unknown[];
+    }) => {
+      return provider.request({ method, params });
+    },
+  };
+
+  // Init the ethers provider; this is required for V6
+  const ethersProvider = new ethers.BrowserProvider(customProvider, "any");
 
   // Fetch the balance when userInfo or chainInfo changes
   useEffect(() => {
