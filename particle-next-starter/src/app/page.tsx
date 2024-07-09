@@ -20,6 +20,7 @@ const Home: NextPage = () => {
   const [recipientAddress, setRecipientAddress] = useState<string>("");
 
   // Create a wrapper for the provider to ensure it matches Eip1193Provider type
+  // This workaround is required in Next JS with ethers V6
   const customProvider = {
     ...provider,
     request: async ({
@@ -33,7 +34,7 @@ const Home: NextPage = () => {
     },
   };
 
-  // Init the ethers provider; this is required for V6
+  // Init the ethers provider; this is for ethers V6
   const ethersProvider = new ethers.BrowserProvider(customProvider, "any");
 
   // Fetch the balance when userInfo or chainInfo changes
