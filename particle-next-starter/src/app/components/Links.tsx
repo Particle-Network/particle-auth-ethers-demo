@@ -35,7 +35,7 @@ const links = [
   {
     href: "https://particle.network",
     title: "Particle Network →",
-    description: "The Intent-Centric Modular Access Layer of Web3.",
+    description: "The L1 unifying all chains through Universal Accounts.",
   },
 ];
 
