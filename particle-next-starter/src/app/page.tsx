@@ -1,26 +1,34 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import type { NextPage } from "next";
+
+// Import Particle Auth hooks and provider
 import {
   useEthereum,
   useConnect,
   useAuthCore,
 } from "@particle-network/auth-core-modal";
 import { ethers } from "ethers";
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
+
+// UI component to display links to the Particle sites
+import LinksGrid from "./components/Links";
+import Header from "./components/Header";
+
+// Import the utility functions
+import { formatBalance, truncateAddress } from "./utils/utils";
 
 const Home: NextPage = () => {
   // Hooks to manage logins, data display, and transactions
   const { connect, disconnect, connectionStatus } = useConnect();
-  const { address, provider, chainInfo } = useEthereum();
+  const { address, provider, chainInfo, signMessage } = useEthereum();
   const { userInfo } = useAuthCore();
 
-  const [balance, setBalance] = useState<string>("");
-  const [recipientAddress, setRecipientAddress] = useState<string>("");
+  const [balance, setBalance] = useState<string>(""); // states for fetching and display the balance
+  const [recipientAddress, setRecipientAddress] = useState<string>(""); // states to get the address to send tokens to from the UI
+  const [selectedProvider, setSelectedProvider] = useState<string>("ethers"); // states to handle which providers signs the message
 
   // Create a wrapper for the provider to ensure it matches Eip1193Provider type
-  // This workaround is required in Next JS with ethers V6
+  // This workaround is required with ethers V6
   const customProvider = {
     ...provider,
     request: async ({
@@ -52,15 +60,9 @@ const Home: NextPage = () => {
       const balanceResponse = await ethersProvider.getBalance(address);
       const balanceInEther = ethers.formatEther(balanceResponse);
 
-      // Format the balance to 6 decimal places; more accurate than using .toFixed()
-      // This could ne moved to a utils file
-      const [integerPart, decimalPart] = balanceInEther.split(".");
-      const truncatedDecimalPart = decimalPart
-        ? decimalPart.slice(0, 6)
-        : "000000";
-      const fixedBalance = `${integerPart}.${truncatedDecimalPart}`;
+      // Format the balance using the utility function
+      const fixedBalance = formatBalance(balanceInEther);
 
-      console.log(fixedBalance);
       setBalance(fixedBalance);
     } catch (error) {
       console.error("Error fetching balance:", error);
@@ -106,28 +108,41 @@ const Home: NextPage = () => {
     }
   };
 
+  // Sign a message using ethers as provider
+  const signMessageEthers = async () => {
+    const signer = await ethersProvider.getSigner();
+    const signerAddress = await signer.getAddress();
+
+    const message = "Gm Particle! Signing with ethers.";
+
+    try {
+      const result = await signMessage(message);
+      alert(`Signed Message: ${result} by address ${signerAddress}.`);
+    } catch (error: any) {
+      // This is how you can display errors to the user
+      alert(`Error with code ${error.code}: ${error.message}`);
+      console.error("personal_sign", error);
+    }
+  };
+
+  // Sign message using Particle Auth Natively
+  const signMessageParticle = async () => {
+    const message = "Gm Particle! Signing with Particle Auth.";
+
+    try {
+      const result = await signMessage(message);
+      alert(`Signed Message: ${result} by address ${address}.`);
+    } catch (error: any) {
+      // This is how you can display errors to the user
+      alert(`Error with code ${error.code}: ${error.message}`);
+      console.error("personal_sign", error);
+    }
+  };
+
   // The UI
   return (
     <div className="min-h-screen flex flex-col items-center justify-between p-8 bg-black text-white">
-      <Head>
-        <title>Particle Auth Core App</title>
-        <meta name="description" content="Particle Auth Code demo in Next js" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <h1 className="text-4xl mt-4 font-bold mb-12 text-center flex items-center justify-center">
-        Welcome to
-        <a
-          href="https://particle.network"
-          className="text-purple-400 hover:text-purple-300 transition duration-300 ml-2"
-        >
-          <Image src="/dark.png" alt="Particle Logo" width={240} height={24} />
-        </a>
-      </h1>
-
-      <h2 className="text-lg font-bold  mb-6">
-        Particle Auth demo Next.js. Connect with social logins and send a
-        transaction.
-      </h2>
+      <Header />
       <main className="flex-grow flex flex-col items-center justify-center w-full max-w-6xl mx-auto">
         {!userInfo ? (
           <div className="login-section">
@@ -139,17 +154,20 @@ const Home: NextPage = () => {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
             <div className="border border-purple-500 p-6 rounded-lg">
-              <h2 className="text-xl font-semibold mb-2 text-white">
-                Account: {userInfo.name}
+              <h2 className="text-2xl font-bold mb-2 text-white">
+                Accounts info
+              </h2>
+              <h2 className="text-lg font-semibold mb-2 text-white">
+                Name: {userInfo.name}
               </h2>
               <h2 className="text-lg font-semibold mb-2 text-white">
                 Status: {connectionStatus}
               </h2>
 
-              <h2 className="text-md font-semibold mb-2 text-white">
-                Address: <code>{address}</code>
+              <h2 className="text-lg font-semibold mb-2 text-white">
+                Address: <code>{truncateAddress(address || "")}</code>
               </h2>
               <h3 className="text-lg mb-2 text-gray-400">
                 Chain: {chainInfo.fullname}
@@ -157,9 +175,20 @@ const Home: NextPage = () => {
               <h3 className="text-lg font-semibold text-purple-400">
                 Balance: {balance} {chainInfo.nativeCurrency.symbol}
               </h3>
+              <div>
+                <button
+                  className="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+                  onClick={handleDisconnect}
+                >
+                  Disconnect
+                </button>
+              </div>
             </div>
             <div className="border border-purple-500 p-6 rounded-lg">
-              <h2 className="text-xl font-bold">Send 0.01 ETH</h2>
+              <h2 className="text-2xl font-bold mb-2 text-white">
+                Send a transaction
+              </h2>
+              <h2 className="text-lg">Send 0.01 ETH</h2>
               <input
                 type="text"
                 placeholder="Recipient Address"
@@ -174,87 +203,32 @@ const Home: NextPage = () => {
               >
                 Send 0.01 ETH
               </button>
-              <div>
-                <button
-                  className="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
-                  onClick={handleDisconnect}
-                >
-                  Disconnect
-                </button>
-              </div>
+            </div>
+            <div className="border border-purple-500 p-6 rounded-lg">
+              <h2 className="text-2xl font-bold mb-2">Sign a Message</h2>
+              <p className="text-lf">Pick a provider to sign with:</p>
+              <select
+                value={selectedProvider}
+                onChange={(e) => setSelectedProvider(e.target.value)}
+                className="mt-4 p-2 w-full rounded border border-gray-700 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
+              >
+                <option value="ethers">Ethers Provider</option>
+                <option value="particle">Particle Auth</option>
+              </select>
+              <button
+                className="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+                onClick={
+                  selectedProvider === "ethers"
+                    ? signMessageEthers
+                    : signMessageParticle
+                }
+              >
+                Sign Message
+              </button>
             </div>
           </div>
         )}
-        <h2 className="text-2xl font-bold mt-8 mb-6 text-center">
-          <a
-            href="https://github.com/soos3d/particle-next-starter"
-            target="blank"
-            className="text-white hover:text-purple-300 transition duration-300 flex items-center"
-          >
-            <img
-              src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"
-              alt="GitHub Logo"
-              className="w-6 h-6 mr-2"
-            />
-            Check the repository
-          </a>
-        </h2>
-        <p className="text-xl mb-12 text-center">
-          Get started by editing{" "}
-          <code className="bg-gray-800 rounded p-1 text-purple-300">
-            src/app/page.tsx
-          </code>
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-          <a
-            href="https://docs.particle.network"
-            className="border border-purple-500 p-6 rounded-lg hover:bg-gray-800 transition duration-300 ease-in-out transform hover:scale-105"
-          >
-            <h2 className="text-2xl font-semibold mb-2 text-purple-400">
-              Documentation &rarr;
-            </h2>
-            <p className="text-gray-300">
-              Find in-depth information about AuthCore features and API.
-            </p>
-          </a>
-          <a
-            href="https://dashboard.particle.network"
-            className="border border-purple-500 p-6 rounded-lg hover:bg-gray-800 transition duration-300 ease-in-out transform hover:scale-105"
-          >
-            <h2 className="text-2xl font-semibold mb-2 text-purple-400">
-              Dashboard &rarr;
-            </h2>
-            <p className="text-gray-300">
-              Manage your projects and team, View analytics data, Custom
-              configuration.
-            </p>
-          </a>
-          <a
-            href="https://github.com/Particle-Network/particle-web-auth-core"
-            className="border border-purple-500 p-6 rounded-lg hover:bg-gray-800 transition duration-300 ease-in-out transform hover:scale-105"
-          >
-            <h2 className="text-2xl font-semibold mb-2 text-purple-400">
-              Examples &rarr;
-            </h2>
-            <p className="text-gray-300">
-              Discover and deploy boilerplate example AuthCore projects.
-            </p>
-          </a>
-          <a
-            href="https://particle.network"
-            className="border border-purple-500 p-6 rounded-lg hover:bg-gray-800 transition duration-300 ease-in-out transform hover:scale-105"
-          >
-            <h2 className="text-2xl font-semibold mb-2 text-purple-400">
-              Particle Network &rarr;
-            </h2>
-            <p className="text-gray-300">
-              The Intent-Centric Modular Access Layer of Web3.
-            </p>
-          </a>
-        </div>
-        <footer className="w-full flex justify-center items-center py-8">
-          <Image src="/dark.png" alt="Particle Logo" width={240} height={24} />
-        </footer>
+        <LinksGrid />
       </main>
     </div>
   );
