@@ -8,7 +8,7 @@ import {
   useConnect,
   useAuthCore,
 } from "@particle-network/auth-core-modal";
-import { ethers } from "ethers";
+import { ethers, type Eip1193Provider } from "ethers"; // Eip1193Provider is the interface for the injected BrowserProvider
 
 // UI component to display links to the Particle sites
 import LinksGrid from "./components/Links";
@@ -27,23 +27,11 @@ const Home: NextPage = () => {
   const [recipientAddress, setRecipientAddress] = useState<string>(""); // states to get the address to send tokens to from the UI
   const [selectedProvider, setSelectedProvider] = useState<string>("ethers"); // states to handle which providers signs the message
 
-  // Create a wrapper for the provider to ensure it matches Eip1193Provider type
-  // This workaround is required with ethers V6
-  const customProvider = {
-    ...provider,
-    request: async ({
-      method,
-      params,
-    }: {
-      method: string;
-      params?: unknown[];
-    }) => {
-      return provider.request({ method, params });
-    },
-  };
-
-  // Init the ethers provider; this is for ethers V6
-  const ethersProvider = new ethers.BrowserProvider(customProvider, "any");
+  // Create provider instance with ethers V6
+  const ethersProvider = new ethers.BrowserProvider(
+    provider as Eip1193Provider,
+    "any"
+  );
 
   // Fetch the balance when userInfo or chainInfo changes
   useEffect(() => {
