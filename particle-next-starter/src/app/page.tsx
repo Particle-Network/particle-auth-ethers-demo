@@ -138,6 +138,9 @@ const Home: NextPage = () => {
     <div className="min-h-screen flex flex-col items-center justify-between p-8 bg-black text-white">
       <Header />
       <main className="flex-grow flex flex-col items-center justify-center w-full max-w-6xl mx-auto">
+        {/*
+            UI starts with a condition. If userInfo is undefined, the user is not logged in so the connect button is displayed.
+      */}
         {!userInfo ? (
           <div className="login-section">
             <button
@@ -150,6 +153,10 @@ const Home: NextPage = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
             <div className="border border-purple-500 p-6 rounded-lg">
+              {/*
+            In this card we display info from Particle Auth
+            This area shocases how to fetch various kind of data from Particle Auth directly.
+              */}
               <h2 className="text-2xl font-bold mb-2 text-white">
                 Accounts info
               </h2>
@@ -187,6 +194,10 @@ const Home: NextPage = () => {
               </div>
             </div>
             <div className="border border-purple-500 p-6 rounded-lg">
+              {/*
+              The card to send a transaction
+              Good showcase on how to use states to display more info about the transaction.
+                */}
               <h2 className="text-2xl font-bold mb-2 text-white">
                 Send a transaction
               </h2>
@@ -213,6 +224,9 @@ const Home: NextPage = () => {
               )}
             </div>
             <div className="border border-purple-500 p-6 rounded-lg">
+              {/*
+            The card where the user can sign a message
+              */}
               <h2 className="text-2xl font-bold mb-2">Sign a Message</h2>
               <p className="text-lf">Pick a provider to sign with:</p>
               <select
