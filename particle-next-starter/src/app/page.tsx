@@ -160,9 +160,17 @@ const Home: NextPage = () => {
               <h3 className="text-lg mb-2 text-gray-400">
                 Chain: {chainInfo.fullname}
               </h3>
-              <h3 className="text-lg font-semibold text-purple-400">
-                Balance: {balance} {chainInfo.nativeCurrency.symbol}
-              </h3>
+              <div className="flex items-center">
+                <h3 className="text-lg font-semibold text-purple-400 mr-2">
+                  Balance: {balance} {chainInfo.nativeCurrency.symbol}
+                </h3>
+                <button
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-1 px-2 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg flex items-center"
+                  onClick={fetchBalance}
+                >
+                  🔄
+                </button>
+              </div>
               <div>
                 <button
                   className="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
