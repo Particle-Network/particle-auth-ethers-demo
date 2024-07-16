@@ -11,7 +11,7 @@ const repositoryLink = {
 // Indicate where the bulk of the code is
 const codeText = {
   text: "Get started by editing",
-  code: "src/app/page.tsx",
+  code: "src/app/App.tsx",
 };
 
 // Links and descriptions to the particle documentation
