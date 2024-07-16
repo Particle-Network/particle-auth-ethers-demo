@@ -17,7 +17,7 @@ const codeText = {
 // Links and descriptions to the particle documentation
 const links = [
   {
-    href: "https://docs.particle.network",
+    href: "https://developers.particle.network",
     title: "Documentation →",
     description: "Find in-depth information about AuthCore features and API.",
   },
@@ -69,6 +69,8 @@ const LinksGrid = () => {
           <a
             key={index}
             href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
             className="border border-purple-500 p-6 rounded-lg hover:bg-gray-800 transition duration-300 ease-in-out transform hover:scale-105"
           >
             <h2 className="text-2xl font-semibold mb-2 text-purple-400">

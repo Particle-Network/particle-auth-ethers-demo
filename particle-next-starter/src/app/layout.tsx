@@ -19,9 +19,13 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthCoreContextProvider
           options={{
-            projectId: process.env.NEXT_PUBLIC_PROJECT_ID || "",
-            clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY || "",
-            appId: process.env.NEXT_PUBLIC_APP_ID || "",
+            // All env variable must be defined at runtime
+            projectId: process.env.NEXT_PUBLIC_PROJECT_ID!,
+            clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY!,
+            appId: process.env.NEXT_PUBLIC_APP_ID!,
+
+            // This is how you limit the options available.
+            // Remove the authTypes array to display all options available
             authTypes: [
               AuthType.email,
               AuthType.google,
@@ -34,7 +38,7 @@ export default function RootLayout({
               // Set to false to remove the embedded wallet modal
               visible: true,
               customStyle: {
-                // Locks the chain selector to Base Sepolia
+                // Locks the chain selector to Base Sepolia and Ethereum Sepolia
                 supportChains: [BaseSepolia, EthereumSepolia],
               },
             },

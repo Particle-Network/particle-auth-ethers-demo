@@ -31,6 +31,7 @@ const Home: NextPage = () => {
   const [isSending, setIsSending] = useState<boolean>(false); // state to display 'Sending...' while waiting for a hash
 
   // Create provider instance with ethers V6
+  // use new ethers.providers.Web3Provider(provider, "any"); for Ethers V5
   const ethersProvider = new ethers.BrowserProvider(
     provider as Eip1193Provider,
     "any"
@@ -49,7 +50,7 @@ const Home: NextPage = () => {
       const signer = await ethersProvider.getSigner();
       const address = await signer.getAddress();
       const balanceResponse = await ethersProvider.getBalance(address);
-      const balanceInEther = ethers.formatEther(balanceResponse);
+      const balanceInEther = ethers.formatEther(balanceResponse); // ethers V5 will need the utils module for those convertion operations
 
       // Format the balance using the utility function
       const fixedBalance = formatBalance(balanceInEther);
@@ -84,7 +85,7 @@ const Home: NextPage = () => {
     const tx = {
       to: recipientAddress,
       value: ethers.parseEther("0.01"),
-      data: "0x",
+      data: "0x", // data is needed only when interacting with smart contracts. 0x equals to zero and it's here for demonstration only
     };
 
     try {
@@ -160,9 +161,16 @@ const Home: NextPage = () => {
               <h2 className="text-2xl font-bold mb-2 text-white">
                 Accounts info
               </h2>
-              <h2 className="text-lg font-semibold mb-2 text-white">
-                Name: {userInfo.name}
-              </h2>
+              <div className="flex items-center">
+                <h2 className="text-lg font-semibold mb-2 text-white mr-2">
+                  Name: {userInfo.name}
+                </h2>
+                <img
+                  src={userInfo.avatar}
+                  alt="User Avatar"
+                  className="w-10 h-10 rounded-full"
+                />
+              </div>
               <h2 className="text-lg font-semibold mb-2 text-white">
                 Status: {connectionStatus}
               </h2>
