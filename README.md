@@ -93,7 +93,7 @@ yarn dev
 
 Particle Auth config is in `src/app/layout.tsx`. 
 
-## Development React Native
+## Development React
 
 Particle Auth config is in `src/app/index.tsx`. 
 
@@ -125,7 +125,7 @@ You can follow these instructions if you want to configure the React project fro
 ### Create a React project
 
 ```sh
-npx create-react-app particle-network-project
+npx create-react-app particle-network-project --template typescript 
 ```
 
 ```sh
