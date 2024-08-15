@@ -5,7 +5,7 @@ import {
   useEthereum,
   useConnect,
   useAuthCore,
-} from "@particle-network/auth-core-modal";
+} from "@particle-network/authkit";
 import { ethers, Eip1193Provider } from "ethers"; // Eip1193Provider is the interface for the injected BrowserProvider
 
 // UI component to display links to the Particle sites
@@ -18,7 +18,7 @@ import { formatBalance, truncateAddress } from "./utils/utils";
 
 const App: React.FC = () => {
   // Hooks to manage logins, data display, and transactions
-  const { connect, disconnect, connectionStatus } = useConnect();
+  const { connect, disconnect, connectionStatus, connected } = useConnect();
   const { address, provider, chainInfo, signMessage } = useEthereum();
   const { userInfo } = useAuthCore();
 
@@ -58,7 +58,7 @@ const App: React.FC = () => {
   };
 
   const handleLogin = async () => {
-    if (!userInfo) {
+    if (!connected) {
       await connect({});
     }
   };
@@ -130,6 +130,11 @@ const App: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-between p-8 bg-black text-white">
       <Header />
       <main className="flex-grow flex flex-col items-center justify-center w-full max-w-6xl mx-auto">
+        <div className="bg-gray-800 p-4 rounded-lg shadow-lg max-w-sm mx-auto mb-4">
+          <h2 className="text-md font-semibold text-white">
+            Status: {connectionStatus}
+          </h2>
+        </div>
         {!userInfo ? (
           <div className="login-section">
             <button
@@ -156,13 +161,10 @@ const App: React.FC = () => {
                 />
               </div>
               <h2 className="text-lg font-semibold mb-2 text-white">
-                Status: {connectionStatus}
-              </h2>
-              <h2 className="text-lg font-semibold mb-2 text-white">
                 Address: <code>{truncateAddress(address || "")}</code>
               </h2>
               <h3 className="text-lg mb-2 text-gray-400">
-                Chain: {chainInfo.fullname}
+                Chain: {chainInfo.name}
               </h3>
               <div className="flex items-center">
                 <h3 className="text-lg font-semibold text-purple-400 mr-2">
@@ -206,7 +208,7 @@ const App: React.FC = () => {
               {transactionHash && (
                 <TxNotification
                   hash={transactionHash}
-                  blockExplorerUrl={chainInfo.blockExplorerUrl}
+                  blockExplorerUrl={chainInfo.blockExplorers?.default.url || ""}
                 />
               )}
             </div>

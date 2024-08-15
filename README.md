@@ -3,13 +3,13 @@
     <img src="https://i.imgur.com/xmdzXU4.png" />
   </a>
   <h3>
- @particle-network/auth-core Demo Application 
+ @particle-network/authkit Demo Application 
   </h3>
 </div>
 
 # Particle Auth & ethers V6
 
-⚡️ Basic demo application using `@particle-network/auth-core` to initiate social login and send transactions. This is a lower-level library and powers `@particle-network/auth-core-modal` - most additional functionality beyond the aforementioned (login and transaction execution) will need to be built by the developer implementing this library.
+⚡️ Basic demo application using `@particle-network/authkit` to initiate social login and send transactions. This is a lower-level library and powers `@particle-network/auth-core-modal` - most additional functionality beyond the aforementioned (login and transaction execution) will need to be built by the developer implementing this library.
 
 This app allows you to log in using social logins and interact with the Ethereum Sepolia and Base Sepolia testnets by displaying account information and sending a transfer transaction to an address you can input in the UI. 
 
@@ -91,11 +91,11 @@ yarn dev
 
 ## Development Next JS
 
-Particle Auth config is in `src/app/layout.tsx`. 
+Particle Auth config is in `src/app/components/Autkit.tsx`. 
 
 ## Development React
 
-Particle Auth config is in `src/app/index.tsx`. 
+Particle Auth config is in `src/app/components/Autkit.tsx`. 
 
 ### Config social logins
 

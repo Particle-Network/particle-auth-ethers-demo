@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.4.0.tgz#728c484f4e10df03d5a3acd0d8adcbbebff8ad63"
   integrity sha512-Ff9+ksdQQB3rMncgqDK78uLznstjyfIf2Arnh22pW8kBpLs6rpKDwgnZT46hin5Hl1WzazzK64DOrhSwYpS7bQ==
 
+"@adraffy/ens-normalize@1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@adraffy/ens-normalize/-/ens-normalize-1.10.0.tgz#d2a39395c587e092d77cbbc80acf956a54f38bf7"
+  integrity sha512-nA9XHtlAkYfJxY7bce8DcN7eKxWWCWkU+1GR9d+U6MbNpfwQp8TI7vqOsBsMcHoT4mBu2kypKoSKnghEzOOq5Q==
+
 "@adraffy/ens-normalize@1.10.1":
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/@adraffy/ens-normalize/-/ens-normalize-1.10.1.tgz#63430d04bd8c5e74f8d7d049338f1cd9d4f02069"
@@ -2343,10 +2348,24 @@
   dependencies:
     "@noble/hashes" "1.3.2"
 
+"@noble/curves@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.4.0.tgz#f05771ef64da724997f69ee1261b2417a49522d6"
+  integrity sha512-p+4cb332SFCrReJkCYe8Xzm0OWi4Jji5jVdIZRL/PmacmDkFNw6MrrV+gGpiPxLHbV+zKFRywUWbaseT+tZRXg==
+  dependencies:
+    "@noble/hashes" "1.4.0"
+
 "@noble/curves@1.4.2", "@noble/curves@^1.4.2", "@noble/curves@~1.4.0":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.4.2.tgz#40309198c76ed71bc6dbf7ba24e81ceb4d0d1fe9"
   integrity sha512-TavHr8qycMChk8UwMld0ZDRvatedkzWfH8IiaeGCfymOP5i0hSCozz9vHOL0nkwk7HRMlFnAiKpS2jrUmSybcw==
+  dependencies:
+    "@noble/hashes" "1.4.0"
+
+"@noble/curves@^1.4.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.5.0.tgz#7a9b9b507065d516e6dce275a1e31db8d2a100dd"
+  integrity sha512-J5EKamIHnKPyClwVrzmaf5wSdQXgdHcPZIZLu3bwnbeCx8/7NPK5q2ZBWF+5FvYGByjiQQsJYX6jfgB2wDPn3A==
   dependencies:
     "@noble/hashes" "1.4.0"
 
@@ -2443,6 +2462,58 @@
     lzutf8 "^0.6.3"
     uuid "^9.0.1"
 
+"@particle-network/auth-core@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@particle-network/auth-core/-/auth-core-2.0.0.tgz#ff8f9abbe5973af1e6fb592a4e2f18d866fbcac6"
+  integrity sha512-ZwyTU52ef2nSspSsdqnQW5KP+ZMf3cXU4ivnOQoOZZk3P+IZ8Xf5CzhuWbL5C8FW41pSO9+jJzgbKZt5XHbcig==
+  dependencies:
+    "@aws-sdk/client-cognito-identity" "^3.58.0"
+    "@aws-sdk/client-kms" "^3.58.0"
+    "@aws-sdk/credential-providers" "^3.58.0"
+    "@ethereumjs/tx" "^4.2.0"
+    "@ethereumjs/util" "^8.1.0"
+    "@ethersproject/bignumber" "^5.7.0"
+    "@ethersproject/units" "^5.7.0"
+    "@metamask/eth-sig-util" "^7.0.0"
+    "@metamask/rpc-errors" "^6.0.0"
+    "@particle-network/analytics" "^1.0.1"
+    "@particle-network/thresh-sig" "^0.7.8"
+    "@solana/web3.js" "^1.73.0"
+    axios "^1.5.0"
+    base64url "^3.0.1"
+    bs58 "^5.0.0"
+    crypto-js "^4.1.1"
+    fast-json-stable-stringify "^2.1.0"
+    lzutf8 "^0.6.3"
+    uuid "^9.0.1"
+
+"@particle-network/authkit@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@particle-network/authkit/-/authkit-2.0.0.tgz#b0ce7f4acebf643fdc63930557cd6f866805c740"
+  integrity sha512-Tpu79bca0HJ5Wqde2PhmcCT28wrd9FrXnHyd7BYAmXc93AWCU21wnYUoEYhN6Kz9pBbZwwSqQYJ64mHsKrwp/A==
+  dependencies:
+    "@particle-network/analytics" "^1.0.1"
+    "@particle-network/auth-core" "^2.0.0"
+    "@solana/spl-token" "^0.2.0"
+    ahooks "^3.7.8"
+    antd "^4"
+    bn.js "^5.2.1"
+    country-flag-icons "^1.4.26"
+    dayjs "^1.11.7"
+    ethjs-unit "^0.1.6"
+    i18next "^23.2.3"
+    json-toy "^2.0.2"
+    libphonenumber-js "^1.10.36"
+    lodash "^4.17.21"
+    lottie-react "^2.4.0"
+    lzutf8 "^0.6.2"
+    numbro "^2.3.6"
+    qs "^6.10.3"
+    react-copy-to-clipboard "^5.1.0"
+    react-i18next "^13.3.0"
+    react-shadow "^20.5.0"
+    uuid "^8.3.2"
+
 "@particle-network/chains@>=1.3.8":
   version "1.5.7"
   resolved "https://registry.yarnpkg.com/@particle-network/chains/-/chains-1.5.7.tgz#0bc3fc0adb37405081f0b6160105280b963b5b45"
@@ -2462,6 +2533,18 @@
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/@particle-network/wallet/-/wallet-1.4.6.tgz#0f90b33ed48a19810f1e624ba01fd00a07e97184"
   integrity sha512-ZpaKGuaA+xWL2jIgZikv9xyf/PGoKwlvPAj+XQR5QZn+KRfX318zbsn/RB0Wgu/vZ+tyY47zU/fqBS1NyJK/og==
+  dependencies:
+    "@solana/web3.js" "^1.73.0"
+    crypto-js "^4.1.1"
+    draggabilly "^3.0.0"
+    fast-json-stable-stringify "^2.1.0"
+    lodash "^4.17.21"
+    uuid "^9.0.1"
+
+"@particle-network/wallet@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@particle-network/wallet/-/wallet-2.0.0.tgz#e5377bb72fbbe7345258b17b8ee950e2c5d83bf1"
+  integrity sha512-dvFyntxuy/zjNsplRgHc9m2JRk3841PTlxYSaAWFGjJC2qM4bD7ef3rIcWo+YksTkpOtYaQW8ZFBqLErXRPauQ==
   dependencies:
     "@solana/web3.js" "^1.73.0"
     crypto-js "^4.1.1"
@@ -3845,6 +3928,11 @@ abab@^2.0.3, abab@^2.0.5:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.6.tgz#41b80f2c871d19686216b82309231cfd3cb3d291"
   integrity sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==
+
+abitype@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/abitype/-/abitype-1.0.5.tgz#29d0daa3eea867ca90f7e4123144c1d1270774b6"
+  integrity sha512-YzDhti7cjlfaBhHutMaboYB21Ha3rXR9QTkNJFzYC4kC8YclaiwPBBBJY8ejFdu2wnJeZCVZSMlQJ7fi8S6hsw==
 
 abort-controller@^3.0.0:
   version "3.0.0"
@@ -7805,6 +7893,11 @@ isomorphic-ws@^4.0.1:
   resolved "https://registry.yarnpkg.com/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#55fd4cd6c5e6491e76dc125938dd863f5cd4f2dc"
   integrity sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==
 
+isows@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/isows/-/isows-1.0.4.tgz#810cd0d90cc4995c26395d2aa4cfa4037ebdf061"
+  integrity sha512-hEzjY+x9u9hPmBom9IIAqdJCwNLax+xrPb51vEPpERoFlIxgmZcHzsT5jKG06nvInKOBGvReAVz80Umed5CczQ==
+
 istanbul-lib-coverage@^3.0.0, istanbul-lib-coverage@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-3.2.2.tgz#2d166c4b0644d43a39f04bf6c2edd1e585f31756"
@@ -10923,7 +11016,7 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react-shadow@^20.4.0:
+react-shadow@^20.4.0, react-shadow@^20.5.0:
   version "20.5.0"
   resolved "https://registry.yarnpkg.com/react-shadow/-/react-shadow-20.5.0.tgz#dbfe87be42c33b57aab88d11a547060ddc8be7f5"
   integrity sha512-DHukRfWpJrFtZMcZrKrqU3ZwuHjTpTbrjnJdTGZQE3lqtC5ivBDVWqAVVW6lR3Lq6bhphjAbqaJU8NOoTRSCsg==
@@ -12579,6 +12672,21 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
+viem@2:
+  version "2.19.4"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.19.4.tgz#129a6dfbaf81bfc5664fde62c6a77cdbdebeeff9"
+  integrity sha512-JdhK3ui3uPD2tnpqGNkJaDQV4zTfOeKXcF+VrU8RG88Dn2e0lFjv6l7m0YNmYLsHm+n5vFFfCLcUrTk6xcYv5w==
+  dependencies:
+    "@adraffy/ens-normalize" "1.10.0"
+    "@noble/curves" "1.4.0"
+    "@noble/hashes" "1.4.0"
+    "@scure/bip32" "1.4.0"
+    "@scure/bip39" "1.3.0"
+    abitype "1.0.5"
+    isows "1.0.4"
+    webauthn-p256 "0.0.5"
+    ws "8.17.1"
+
 vm-browserify@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
@@ -12640,6 +12748,14 @@ web-vitals@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-2.1.4.tgz#76563175a475a5e835264d373704f9dde718290c"
   integrity sha512-sVWcwhU5mX6crfI5Vd2dC4qchyTqxV8URinzt25XqVh+bHEPGH4C3NPrNionCP7Obx59wrYEbNlw4Z8sjALzZg==
+
+webauthn-p256@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/webauthn-p256/-/webauthn-p256-0.0.5.tgz#0baebd2ba8a414b21cc09c0d40f9dd0be96a06bd"
+  integrity sha512-drMGNWKdaixZNobeORVIqq7k5DsRC9FnG201K2QjeOoQLmtSDaSsVZdkg6n5jUALJKcAG++zBPJXmv6hy0nWFg==
+  dependencies:
+    "@noble/curves" "^1.4.0"
+    "@noble/hashes" "^1.4.0"
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
