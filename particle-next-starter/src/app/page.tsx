@@ -7,7 +7,7 @@ import {
   useEthereum,
   useConnect,
   useAuthCore,
-} from "@particle-network/auth-core-modal";
+} from "@particle-network/authkit";
 import { ethers, type Eip1193Provider } from "ethers"; // Eip1193Provider is the interface for the injected BrowserProvider
 
 // UI component to display links to the Particle sites
@@ -20,7 +20,7 @@ import { formatBalance, truncateAddress } from "./utils/utils";
 
 const Home: NextPage = () => {
   // Hooks to manage logins, data display, and transactions
-  const { connect, disconnect, connectionStatus } = useConnect();
+  const { connect, disconnect, connectionStatus, connected } = useConnect();
   const { address, provider, chainInfo, signMessage } = useEthereum();
   const { userInfo } = useAuthCore();
 
@@ -63,12 +63,12 @@ const Home: NextPage = () => {
 
   // Handle user login
   const handleLogin = async () => {
-    if (!userInfo) {
+    if (!connected) {
       await connect({});
     }
   };
 
-  // Handle user disconnect
+  // Logout user
   const handleDisconnect = async () => {
     try {
       await disconnect();
@@ -111,7 +111,7 @@ const Home: NextPage = () => {
     const message = "Gm Particle! Signing with ethers.";
 
     try {
-      const result = await signMessage(message);
+      const result = await signMessage(message, true);
       alert(`Signed Message: ${result} by address ${signerAddress}.`);
     } catch (error: any) {
       // This is how you can display errors to the user
@@ -139,6 +139,12 @@ const Home: NextPage = () => {
     <div className="min-h-screen flex flex-col items-center justify-between p-8 bg-black text-white">
       <Header />
       <main className="flex-grow flex flex-col items-center justify-center w-full max-w-6xl mx-auto">
+        <div className="bg-gray-800 p-4 rounded-lg shadow-lg max-w-sm mx-auto mb-4">
+          <h2 className="text-md font-semibold text-white">
+            Status: {connectionStatus}
+          </h2>
+        </div>
+
         {/*
             UI starts with a condition. If userInfo is undefined, the user is not logged in so the connect button is displayed.
       */}
@@ -171,16 +177,15 @@ const Home: NextPage = () => {
                   className="w-10 h-10 rounded-full"
                 />
               </div>
-              <h2 className="text-lg font-semibold mb-2 text-white">
-                Status: {connectionStatus}
-              </h2>
 
               <h2 className="text-lg font-semibold mb-2 text-white">
                 Address: <code>{truncateAddress(address || "")}</code>
               </h2>
-              <h3 className="text-lg mb-2 text-gray-400">
-                Chain: {chainInfo.fullname}
-              </h3>
+              <div className="flex items-center">
+                <h3 className="text-lg mb-2 text-gray-400">
+                  Chain: {chainInfo.name}
+                </h3>
+              </div>
               <div className="flex items-center">
                 <h3 className="text-lg font-semibold text-purple-400 mr-2">
                   Balance: {balance} {chainInfo.nativeCurrency.symbol}
@@ -227,7 +232,9 @@ const Home: NextPage = () => {
               {transactionHash && (
                 <TxNotification
                   hash={transactionHash}
-                  blockExplorerUrl={chainInfo.blockExplorerUrl}
+                  blockExplorerUrl={
+                    chainInfo.blockExplorers?.default?.url || ""
+                  }
                 />
               )}
             </div>
